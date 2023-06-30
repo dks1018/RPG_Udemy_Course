@@ -24,14 +24,17 @@ public class Enemy_Skeleton : Entity
     {
         base.Update();
 
-        if (isPlayerDetected)
+        // Conduct a collision check every frame
+        CollisionCheck();
+
+        // Check is player is detected
+        if (isPlayerDetected.collider != null)
         {
             if (isPlayerDetected.distance > 1)
             {
-                rb.velocity = new Vector2(moveSpeed * 2f * facingDir, rb.velocity.y);
-
                 Debug.Log("I see the player");
                 isAttacking = false;
+                Movement(moveSpeed * 2f); // double the moveSpeed when the player is detected
             }
             else
             {
@@ -39,18 +42,24 @@ public class Enemy_Skeleton : Entity
                 isAttacking = true;
             }
         }
+        else
+        {
+            // If the player isn't detected, the skeleton should move at normal speed
+            isAttacking = false;
+            Movement(moveSpeed);
+        }
+
         if (!isGrounded || isWallDetected)
         {
             Flip();
-        Movement();
         }
     }
 
-    private void Movement()
+    private void Movement(float speed)
     {
         if (!isAttacking)
         {
-            rb.velocity = new Vector2(moveSpeed * facingDir, rb.velocity.y);
+            rb.velocity = new Vector2(speed * facingDir, rb.velocity.y);
         }
 
     }

@@ -100,8 +100,8 @@ public class Player : Entity
 
     private void Movement()
     {
-        if(!isGrounded)
-            return;
+        //if(!isGrounded)
+          //  return;
 
         if (isAttacking)
         {
@@ -109,7 +109,7 @@ public class Player : Entity
         }
         else if (dashTime > 0)
         {
-            rb.velocity = new Vector2(facingDir * dashSpeed, 0);
+            rb.velocity = new Vector2(facingDir * dashSpeed, rb.velocity.y);
         }
         else
         {
